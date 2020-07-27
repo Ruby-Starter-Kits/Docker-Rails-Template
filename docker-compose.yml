@@ -103,4 +103,4 @@ volumes:
   bootsnap_cache:
   rails_cache:
   packs:
-  node_modules: 
+  node_modules:
