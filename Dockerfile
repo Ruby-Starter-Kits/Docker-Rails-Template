@@ -47,8 +47,5 @@ RUN yarn install --check-files
 # Copy the rest of the app
 COPY . /usr/src/app
 
-# Copy DB Sample
-RUN cp -u /usr/src/app/config/database.yml.sample /usr/src/app/config/database.yml
-
 # Compile the assets
 RUN RAILS_SERVE_STATIC_FILES=enabled SECRET_KEY_BASE=secret-key-base RAILS_ENV=production RACK_ENV=production NODE_ENV=production bundle exec rake assets:precompile

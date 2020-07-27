@@ -37,6 +37,8 @@ services:
     mem_limit: 64m
     volumes:
       - postgresql:/var/lib/postgresql/data:delegated
+      # Alternative if you want to store your postgres data outside of a volume
+      #- ~/.docker-data/rails-app/postgresql:/var/lib/postgresql/data:delegated
     # ports:
     #  - 5432
     environment:
