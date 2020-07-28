@@ -33,7 +33,7 @@ x-app: &app
 
 services:
   postgres:
-    image: postgres:11.7-alpine
+    image: postgres:12.3-alpine
     mem_limit: 64m
     volumes:
       - postgresql:/var/lib/postgresql/data:delegated
