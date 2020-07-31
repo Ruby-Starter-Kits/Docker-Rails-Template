@@ -25,6 +25,7 @@ x-app: &app
     - rails_cache:/usr/src/app/tmp/cache:delegated
     - packs:/usr/src/app/public/packs:delegated
     - node_modules:/usr/src/app/node_modules:delegated
+    - storage:/usr/src/app/storage:delegated
   depends_on:
     postgres:
       condition: service_healthy
@@ -104,3 +105,4 @@ volumes:
   rails_cache:
   packs:
   node_modules:
+  storage:
