@@ -12,8 +12,6 @@ x-app: &app
     target: development
   tmpfs:
     - /tmp
-  stdin_open: true
-  tty: true
   env_file:
     - .env
   environment:
@@ -45,8 +43,8 @@ services:
     volumes:
       - ./log:/root/log:cached
       - postgresql:/var/lib/postgresql/data:delegated
-    # ports:
-    #  - 5432
+    ports:
+      - "127.0.0.1:5432:5432"
     environment:
       PSQL_HISTFILE: /root/log/.psql_history
       POSTGRES_USER: postgres
@@ -73,8 +71,8 @@ services:
       --dir /data
     volumes:
       - redis:/data:delegated
-    # ports:
-    #  - 6379
+    ports:
+      - "127.0.0.1:6379:6379"
     restart: on-failure
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -88,7 +86,7 @@ services:
     <<: *app
     command: bash -c "rm -rf /usr/src/app/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
-      - "${PORT:-3000}:3000"
+      - "127.0.0.1:${PORT:-3000}:3000"
 
 #  worker:
 #    <<: *app
@@ -101,7 +99,7 @@ services:
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     ports:
-      - 3035
+      - "127.0.0.1:3035:3035"
 
 volumes:
   postgresql:
