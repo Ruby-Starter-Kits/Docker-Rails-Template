@@ -1,0 +1,90 @@
+{
+  "name": "Docker-Rails-Template",
+  "description": "A starting point I use for my Ruby on Rails apps",
+  "env": {
+    "DURING_RELEASE_RUN_MIGRATIONS": {
+      "required": true,
+      "value": "enabled"
+    },
+    "DURING_RELEASE_SEED_DB": {
+      "required": false,
+      "value": "enabled"
+    },
+    "LANG": {
+      "required": true,
+      "value": "en_US.UTF-8"
+    },
+    "RACK_ENV": {
+      "required": true,
+      "value": "production"
+    },
+    "RAILS_ENV": {
+      "required": true,
+      "value": "production"
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true,
+      "value": "enabled"
+    },
+    "RAILS_MASTER_KEY": {
+      "required": false
+    },
+    "RAILS_MAX_THREADS": {
+      "required": true,
+      "value": "18"
+    },
+    "RAILS_MIN_THREADS": {
+      "required": true,
+      "value": "5"
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true,
+      "value": "enabled"
+    },
+    "SECRET_KEY_BASE": {
+      "required": false
+    },
+    "SIDEKIQ_PASSWORD": {
+      "required": false
+    },
+    "SIDEKIQ_USERNAME": {
+      "required": false
+    },
+    "URL": {
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/metrics"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "environments": {
+    "production": {
+      "addons": [
+        "heroku-redis:hobby-dev",
+        "heroku-postgresql:hobby-dev",
+        "sendgrid",
+        "papertrail",
+        "sentry"
+      ],
+      "formation": {}
+    },
+    "review": {
+      "addons": [
+        "heroku-redis:hobby-dev",
+        "heroku-postgresql:hobby-dev",
+        "mailtrap",
+        "papertrail"
+      ],
+      "formation": {}
+    },
+    "test": {}
+  }
+}

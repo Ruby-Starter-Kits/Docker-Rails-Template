@@ -1,0 +1,32 @@
+---
+# Docker Compose 2.4 is for local development
+# https://www.heroku.com/podcasts/codeish/57-discussing-docker-containers-and-kubernetes-with-a-docker-captain - Source on that.
+version: '2.4'
+
+x-ci-app: &ci-app
+  image: rails-app:0.3.0
+  mem_limit: 512m
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: ci
+  environment:
+    DATABASE_URL: postgres://postgres:postgres@postgres:5432/
+    RAILS_ENV: test
+    RACK_ENV: test
+  volumes:
+    - packs:/usr/src/app/public/packs:delegated
+    - public_assets:/usr/src/app/public/assets:delegated
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+
+  test:
+    <<: *ci-app
+    command: bash -c "bundle exec rails db:setup && bundle exec rake assets:precompile && bundle exec rspec"
+
+volumes:
+  packs:
+  public_assets:

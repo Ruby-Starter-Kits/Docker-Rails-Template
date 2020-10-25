@@ -1,0 +1,28 @@
+---
+name: Linters
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  # https://github.com/github/super-linter
+  super_linter:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v2.1.0
+
+  # https://github.com/devmasx/brakeman-linter-action
+  brakeman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Brakeman
+        uses: devmasx/brakeman-linter-action@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

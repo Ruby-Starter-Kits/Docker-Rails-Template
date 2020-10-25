@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'fileutils'
 
 # path to your application root.
@@ -19,11 +21,6 @@ FileUtils.chdir APP_ROOT do
 
   # Install JavaScript dependencies
   system('bin/yarn')
-
-  puts "\n== Copying sample files =="
-  unless File.exist?('.env')
-    FileUtils.cp '.env.sample', '.env'
-  end
 
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'

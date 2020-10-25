@@ -32,16 +32,36 @@ RUN bundle config --global silence_root_warning 1
 EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 
-FROM development AS production
+FROM development AS shared-production
+
+COPY Gemfile /usr/src/app
+COPY .ruby-version /usr/src/app
+COPY Gemfile.lock /usr/src/app
+
+COPY package.json /usr/src/app
+COPY yarn.lock /usr/src/app
+
+FROM shared-production AS ci
 
 # Install Ruby Gems
-COPY Gemfile /usr/src/app
-COPY Gemfile.lock /usr/src/app
 RUN bundle check || bundle install --jobs=$(nproc)
 
 # Install Yarn Libraries
-COPY package.json /usr/src/app
-COPY yarn.lock /usr/src/app
+RUN yarn install --check-files
+
+# Copy the rest of the app
+COPY . /usr/src/app
+
+CMD ["bundle", "exec", "rspec"]
+
+FROM shared-production AS production
+
+# Install Ruby Gems
+RUN bundle config set deployment 'true'
+RUN bundle config set without 'development:test'
+RUN bundle check || bundle install --jobs=$(nproc)
+
+# Install Yarn Libraries
 RUN yarn install --check-files
 
 # Copy the rest of the app

@@ -12,8 +12,6 @@ x-app: &app
     target: development
   tmpfs:
     - /tmp
-  env_file:
-    - .env
   environment:
     RAILS_LOG_TO_STDOUT: enabled
     REDIS_URL: redis://@redis:6379/1
@@ -53,32 +51,19 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 2s
+      retries: 10
     logging:
       driver: none
 
   redis:
     image: redis:4.0.14-alpine
     mem_limit: 64m
-    command: >
-      --save
-      --maxmemory 32mb
-      --maxmemory-policy noeviction
-      --stop-writes-on-bgsave-error yes
-      --rdbcompression yes
-      --rdbchecksum yes
-      --dir /data
     volumes:
       - redis:/data:delegated
     ports:
       - "127.0.0.1:6379:6379"
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     logging:
       driver: none
 
@@ -88,9 +73,9 @@ services:
     ports:
       - "127.0.0.1:${PORT:-3000}:3000"
 
-#  worker:
-#    <<: *app
-#    command: bundle exec sidekiq -C config/sidekiq.yml
+  worker:
+    <<: *app
+    command: bundle exec sidekiq -C config/sidekiq.yml
 
   webpacker:
     <<: *app

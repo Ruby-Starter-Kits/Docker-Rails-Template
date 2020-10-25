@@ -10,7 +10,7 @@ Clone down the repo, install [Docker](https://hub.docker.com/editions/community/
 
 ```bash
 docker-compose build
-docker-compose run --rm web /bin/sh -c 'bin/setup'
+docker-compose run --rm web bin/setup
 docker-compose up
 ```
 
@@ -22,4 +22,3 @@ Then navigate your browser to https://127.0.0.1:3000/ to see your site.
 * [Ruby on Rails API Documentation](https://api.rubyonrails.org/)
 * [Heroku](https://www.heroku.com/)
 * [Docker-Rails-Generator](https://github.com/Ruby-Starter-Kits/Docker-Rails-Generator)
-
