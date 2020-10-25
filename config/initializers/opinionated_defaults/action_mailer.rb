@@ -23,7 +23,7 @@ Rails.application.configure do
       enable_starttls_auto: true
     }
   elsif Rails.env.development? && defined?(LetterOpenerWeb)
-    #  https://github.com/fgrehm/letter_opener_web
+    # https://github.com/fgrehm/letter_opener_web
     # Preview mailers in your browser.
     config.action_mailer.delivery_method = :letter_opener_web
     config.action_mailer.perform_deliveries = true

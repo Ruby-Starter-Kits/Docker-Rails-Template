@@ -14,7 +14,7 @@ if defined?(Sidekiq) && ENV['REDIS_URL'].present?
   # Sidekiq-cron - It's a very sensible approach to performing scheduled tasks.
   if Sidekiq.server? && defined?(Sidekiq::Cron)
     Rails.application.config.after_initialize do
-      schedule_file = Rails.root.join('config', 'schedule.yml')
+      schedule_file = Rails.root.join('config/schedule.yml')
       schedule_file_yaml = YAML.load_file(schedule_file) if schedule_file.exist?
 
       # Use https://crontab.guru to confirm times
