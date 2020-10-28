@@ -23,6 +23,21 @@ x-ci-app: &ci-app
 
 services:
 
+  postgres:
+    image: postgres:12.3-alpine
+    mem_limit: 64m
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: none
+
   test:
     <<: *ci-app
     command: bash -c "bundle exec rails db:setup && bundle exec rake assets:precompile && bundle exec rspec"
