@@ -37,7 +37,7 @@ gem 'image_processing', '~> 1.12'
 
 gem 'dotenv-rails', '~> 2.7', :groups => %i[development test]
 
-gem 'rubocop', '~> 1.0', :group => :development
+gem 'rubocop', '~> 1.1', :group => :development
 
 gem 'rubocop-rails', '~> 2.8', :group => :development
 
