@@ -3,7 +3,7 @@
 release: bash bin/release-tasks.sh
 
 ## Web Instance, this'll serve TCP requests
-web: bundle exec rails s -p $PORT
+web: bin/rails server -p ${PORT:-5000} -e $RAILS_ENV
 
 ## Sidekiq is the de-facto standard choice for running Background tasks
 # worker: bundle exec sidekiq -C config/sidekiq.yml
