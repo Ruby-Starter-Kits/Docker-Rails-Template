@@ -15,7 +15,7 @@ jobs:
       with:
         ruby-version: 2.7
     - name: Cache gems
-      uses: actions/cache@v2.1.2
+      uses: actions/cache@v2
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-rubocop-${{ hashFiles('**/Gemfile.lock') }}
@@ -26,5 +26,6 @@ jobs:
         bundle config path vendor/bundle
         gem install rubocop
         gem install rubocop-rails
+        gem install rubocop-rspec
     - name: Run RuboCop
       run: rubocop --parallel

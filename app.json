@@ -26,16 +26,9 @@
       "required": true,
       "value": "enabled"
     },
-    "RAILS_MASTER_KEY": {
-      "required": false
-    },
     "RAILS_MAX_THREADS": {
       "required": true,
       "value": "18"
-    },
-    "RAILS_MIN_THREADS": {
-      "required": true,
-      "value": "5"
     },
     "RAILS_SERVE_STATIC_FILES": {
       "required": true,
