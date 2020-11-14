@@ -1,4 +1,4 @@
-FROM ruby:2.7.1-alpine AS builder
+FROM ruby:2.7.2-alpine AS builder
 
 LABEL maintainer="Mike Rogers <me@mikerogers.io>"
 
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
     # Fixes watch file issues with things like HMR
     libnotify-dev
 
-FROM builder as development
+FROM builder AS development
 
 # Add the current apps files into docker image
 RUN mkdir -p /usr/src/app
@@ -41,20 +41,7 @@ COPY Gemfile.lock /usr/src/app
 COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app
 
-FROM shared-production AS ci
-
-# Install Ruby Gems
-RUN bundle check || bundle install --jobs=$(nproc)
-
-# Install Yarn Libraries
-RUN yarn install --check-files
-
-# Copy the rest of the app
-COPY . /usr/src/app
-
-CMD ["bundle", "exec", "rspec"]
-
-FROM shared-production AS production
+FROM development AS production
 
 # Install Ruby Gems
 RUN bundle config set deployment 'true'

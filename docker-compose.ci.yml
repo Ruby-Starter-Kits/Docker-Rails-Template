@@ -9,14 +9,18 @@ x-ci-app: &ci-app
   build:
     context: .
     dockerfile: Dockerfile
-    target: ci
+    target: development
   environment:
     DATABASE_URL: postgres://postgres:postgres@postgres:5432/
     RAILS_ENV: test
     RACK_ENV: test
+    BUNDLE_PATH: /usr/src/app/vendor/bundle
   volumes:
-    - packs:/usr/src/app/public/packs:delegated
-    - public_assets:/usr/src/app/public/assets:delegated
+    - .:/usr/src/app:cached
+    - ./node_modules:/usr/src/app/node_modules:cached
+    - ./public/assets:/usr/src/app/public/assets:cached
+    - ./public/packs-test:/usr/src/app/public/packs-test:cached
+    - ./vendor/bundle:/usr/src/app/vendor/bundle:cached
   depends_on:
     postgres:
       condition: service_healthy
@@ -40,8 +44,4 @@ services:
 
   test:
     <<: *ci-app
-    command: bash -c "bundle exec rails db:setup && bundle exec rake assets:precompile && bundle exec rspec"
-
-volumes:
-  packs:
-  public_assets:
+    command: bash -c "bin/setup && bundle exec rake assets:precompile && bundle exec rspec"
