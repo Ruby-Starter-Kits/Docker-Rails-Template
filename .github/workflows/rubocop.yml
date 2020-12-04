@@ -27,5 +27,6 @@ jobs:
         gem install rubocop
         gem install rubocop-rails
         gem install rubocop-rspec
+        gem install rubocop-performance
     - name: Run RuboCop
       run: rubocop --parallel
