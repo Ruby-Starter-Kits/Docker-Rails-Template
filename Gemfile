@@ -31,7 +31,7 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'rubocop', '~> 1.1', require: false
   gem 'rubocop-performance', '~> 1.9', require: false
-  gem 'rubocop-rails', '~> 2.8', require: false
+  gem 'rubocop-rails', '~> 2.9', require: false
   gem 'rubocop-rspec', '~> 2.0', require: false
 end
 
