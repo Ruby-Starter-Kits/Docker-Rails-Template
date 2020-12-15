@@ -6,8 +6,10 @@ if defined?(Sidekiq) && ENV['REDIS_URL'].present?
 
   # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_USERNAME'])) &
-      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_PASSWORD']))
+    ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username),
+                                                ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_USERNAME'])) &
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password),
+                                                  ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_PASSWORD']))
   end
 
   # https://github.com/ondrejbartas/sidekiq-cron
