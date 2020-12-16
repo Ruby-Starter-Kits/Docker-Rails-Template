@@ -32,7 +32,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rubocop', '~> 1.1', require: false
   gem 'rubocop-performance', '~> 1.9', require: false
-  gem 'rubocop-rails', '~> 2.8', require: false
+  gem 'rubocop-rails', '~> 2.9', require: false
   gem 'rubocop-rspec', '~> 2.0', require: false
 end
 
