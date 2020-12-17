@@ -1,6 +1,5 @@
 # Disable a few of the generators I often just delete after they're created.
 Rails.application.config.generators do |g|
-  g.helper false
   g.assets false
   g.helper false
   g.view_specs false
