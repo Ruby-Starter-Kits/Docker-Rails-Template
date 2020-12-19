@@ -92,10 +92,15 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    ffi (1.13.1)
+    ffi (1.14.0)
     fugit (1.4.1)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -191,7 +196,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 1.0)
     rainbow (3.0.0)
-    rake (13.0.1)
+    rake (13.0.2)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -307,6 +312,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   dotenv-rails (~> 2.7)
+  factory_bot_rails
   image_processing (~> 1.12)
   letter_opener (~> 1.7)
   letter_opener_web (~> 1.4)
@@ -322,7 +328,7 @@ DEPENDENCIES
   rubocop (~> 1.1)
   rubocop-performance (~> 1.9)
   rubocop-rails (~> 2.8)
-  rubocop-rspec (~> 2.1)
+  rubocop-rspec (~> 2.0)
   sass-rails (>= 6)
   selenium-webdriver
   sentry-raven (~> 3.1)
