@@ -43,7 +43,6 @@ services:
     image: postgres:12.3-alpine
     mem_limit: 64m
     volumes:
-      - ./log:/root/log:cached
       - postgresql:/var/lib/postgresql/data:delegated
     ports:
       - "127.0.0.1:5432:5432"
