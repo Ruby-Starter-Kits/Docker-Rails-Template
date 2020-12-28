@@ -37,3 +37,6 @@ yarn-debug.log*
 
 # Ignore .envs - They store environmental variables
 .env
+
+# Ignore the vendor bundle
+vendor/bundle/

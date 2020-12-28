@@ -1,4 +1,13 @@
 ---
+# This is a set up for Rails 6, running a worker & webpack.
+# Gems are cached within a volume, which speeds up development when adding new gems.
+#
+## Usage:
+#
+# docker-compose build
+# docker-compose run --rm web bin/setup
+# docker-compose up
+#
 # Docker Compose 2.4 is for local development
 # https://www.heroku.com/podcasts/codeish/57-discussing-docker-containers-and-kubernetes-with-a-docker-captain - Source on that.
 version: '2.4'
@@ -13,13 +22,9 @@ x-app: &app
   tmpfs:
     - /tmp
   environment:
-    RAILS_LOG_TO_STDOUT: enabled
     REDIS_URL: redis://@redis:6379/1
     DATABASE_URL: postgres://postgres:postgres@postgres:5432/
     WEBPACKER_DEV_SERVER_HOST: webpacker
-    BOOTSNAP_CACHE_DIR: /usr/src/bootsnap
-    HISTFILE: /usr/src/app/log/.bash_history
-    PSQL_HISTFILE: /usr/src/app/log/.psql_history
   volumes:
     - .:/usr/src/app:cached
     - bundler:/usr/local/bundle:delegated
@@ -27,7 +32,6 @@ x-app: &app
     - rails_cache:/usr/src/app/tmp/cache:delegated
     - packs:/usr/src/app/public/packs:delegated
     - node_modules:/usr/src/app/node_modules:delegated
-    - storage:/usr/src/app/storage:delegated
   depends_on:
     postgres:
       condition: service_healthy
@@ -71,7 +75,7 @@ services:
     <<: *app
     command: bash -c "rm -rf /usr/src/app/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
-      - "127.0.0.1:${PORT:-3000}:3000"
+      - "127.0.0.1:3000:3000"
 
   worker:
     <<: *app
@@ -94,4 +98,3 @@ volumes:
   rails_cache:
   packs:
   node_modules:
-  storage:

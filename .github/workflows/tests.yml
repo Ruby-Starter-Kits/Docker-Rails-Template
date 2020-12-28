@@ -17,8 +17,6 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0
         with:
           key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
       - name: Cache Assets
         uses: actions/cache@v2
         with:
@@ -27,24 +25,18 @@ jobs:
             public/assets
             public/packs-test
           key: ${{ runner.os }}-assets-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-assets-
       - name: Cache gems
         uses: actions/cache@v2
         with:
           path: |
             vendor/bundle
           key: ${{ runner.os }}-bundle-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-bundle-
       - name: Build Latest
         run: |
-          docker-compose -f docker-compose.ci.yml build test
+          docker-compose -f docker-compose.ci.yml build --build-arg USER_ID="$(id -u)" --build-arg GROUP_ID="$(id -u)" test
       - name: Run tests
-        env:
-          RAILS_ENV: test
         run: |
-          docker-compose -f docker-compose.ci.yml run --rm test
+          docker-compose -f docker-compose.ci.yml run --rm --user="$(id -u):$(id -g)" test
       - name: Clean Up After Tests
         run: |
           docker image prune -f

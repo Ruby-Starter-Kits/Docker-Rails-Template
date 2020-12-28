@@ -1,5 +1,12 @@
 ---
-# Docker Compose 2.4 is for local development
+# This is used to run the test suite within CI without requiring extra services.
+#
+## Usage:
+#
+# docker-compose -f docker-compose.ci.yml build test
+# docker-compose -f docker-compose.ci.yml run --rm test
+#
+# Docker Compose 2.4 is for local development
 # https://www.heroku.com/podcasts/codeish/57-discussing-docker-containers-and-kubernetes-with-a-docker-captain - Source on that.
 version: '2.4'
 
@@ -17,16 +24,12 @@ x-ci-app: &ci-app
     BUNDLE_PATH: /usr/src/app/vendor/bundle
   volumes:
     - .:/usr/src/app:cached
-    - ./node_modules:/usr/src/app/node_modules:cached
-    - ./public/assets:/usr/src/app/public/assets:cached
-    - ./public/packs-test:/usr/src/app/public/packs-test:cached
-    - ./vendor/bundle:/usr/src/app/vendor/bundle:cached
+
   depends_on:
     postgres:
       condition: service_healthy
 
 services:
-
   postgres:
     image: postgres:12.3-alpine
     mem_limit: 64m
