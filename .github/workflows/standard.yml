@@ -23,5 +23,5 @@ jobs:
       run: |
         bundle config path vendor/bundle
         gem install standardrb
-    - name: Run RuboCop
+    - name: Run Standard
       run: standardrb
