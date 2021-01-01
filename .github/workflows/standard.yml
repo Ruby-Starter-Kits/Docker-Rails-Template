@@ -1,11 +1,11 @@
-name: RuboCop
+name: Standard
 
 on:
   push:
     branches-ignore:
       - master
 jobs:
-  rubocop:
+  standard:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,9 +22,6 @@ jobs:
     - name: Install gems
       run: |
         bundle config path vendor/bundle
-        gem install rubocop
-        gem install rubocop-rails
-        gem install rubocop-rspec
-        gem install rubocop-performance
+        gem install standardrb
     - name: Run RuboCop
-      run: rubocop --parallel
+      run: standardrb

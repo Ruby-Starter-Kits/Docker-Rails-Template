@@ -19,7 +19,7 @@ if defined?(Lograge)
       {
         host: controller.request.host,
         remote_ip: controller.request.remote_ip,
-        api_key: controller.request.headers.env['HTTP_X_APIKEY']
+        api_key: controller.request.headers.env["HTTP_X_APIKEY"]
       }
     end
   end
