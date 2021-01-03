@@ -27,19 +27,13 @@ Temporary Items
 *.rbc
 capybara-*.html
 log
-tmp
 db/*.sqlite3
 db/*.sqlite3-journal
 public/system
-public/assets
-public/packs
-public/packs-test
-node_modules
 yarn-error.log
 yarn-debug.log*
 .yarn-integrity
 external_dns.log
-vendor/bundle
 
 coverage/
 spec/tmp

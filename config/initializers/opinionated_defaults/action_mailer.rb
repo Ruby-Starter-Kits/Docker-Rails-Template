@@ -12,13 +12,16 @@ Rails.application.configure do
       port: first_inbox["smtp_ports"][0],
       authentication: :cram_md5
     }
-  elsif ENV["SENDGRID_USERNAME"].present? && ENV["SENDGRID_PASSWORD"].present?
+  elsif ENV["SENDGRID_API_KEY"].present?
+    # If you're using SendGrid you need to create an API key at:
+    # https://app.sendgrid.com/settings/api_keys
+    # with full access to "Mail Send" permissions.
     config.action_mailer.smtp_settings = {
       address: "smtp.sendgrid.net",
       port: 587,
       authentication: :plain,
-      user_name: ENV["SENDGRID_USERNAME"],
-      password: ENV["SENDGRID_PASSWORD"],
+      user_name: "apikey",
+      password: ENV["SENDGRID_API_KEY"],
       domain: "heroku.com",
       enable_starttls_auto: true
     }

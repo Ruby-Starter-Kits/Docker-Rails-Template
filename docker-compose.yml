@@ -28,11 +28,6 @@ x-app: &app
   volumes:
     - .:/usr/src/app:cached
     - bundler:/usr/local/bundle:delegated
-    - bootsnap_cache:/usr/src/bootsnap:delegated
-    - rails_cache:/usr/src/app/tmp/cache:delegated
-    - packs:/usr/src/app/public/packs:delegated
-    - node_modules:/usr/src/app/node_modules:delegated
-    - letter_opener:/usr/src/app/tmp/letter_opener:delegated
   depends_on:
     postgres:
       condition: service_healthy
@@ -94,8 +89,3 @@ volumes:
   postgresql:
   redis:
   bundler:
-  bootsnap_cache:
-  rails_cache:
-  packs:
-  node_modules:
-  letter_opener:

@@ -17,6 +17,8 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0
         with:
           key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
       - name: Cache Assets
         uses: actions/cache@v2
         with:
