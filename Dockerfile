@@ -42,6 +42,8 @@ RUN apk --no-cache add \
 FROM builder AS development
 
 # Set common ENVs
+ENV BOOTSNAP_CACHE_DIR /usr/src/bootsnap
+ENV YARN_CACHE_FOLDER /usr/src/yarn
 ENV EDITOR vim
 ENV LANG en_US.UTF-8
 ENV BUNDLE_PATH /usr/local/bundle
@@ -61,8 +63,15 @@ RUN bundle config set jobs $(nproc)
 
 # Create app directory in the conventional /usr/src/app
 RUN mkdir -p /usr/src/app \
+      && mkdir -p /usr/src/app/node_modules \
+      && mkdir -p /usr/src/app/public/packs \
+      && mkdir -p /usr/src/app/tmp/cache \
+      && mkdir -p $YARN_CACHE_FOLDER \
+      && mkdir -p $BOOTSNAP_CACHE_DIR \
       && chown -R appuser:appgroup /usr/src/app \
-      && chown -R appuser:appgroup $BUNDLE_PATH
+      && chown -R appuser:appgroup $BUNDLE_PATH \
+      && chown -R appuser:appgroup $BOOTSNAP_CACHE_DIR \
+      && chown -R appuser:appgroup $YARN_CACHE_FOLDER
 WORKDIR /usr/src/app
 
 ENV PATH /usr/src/app/bin:$PATH
