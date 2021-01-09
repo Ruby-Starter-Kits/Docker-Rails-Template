@@ -1,5 +1,10 @@
 version: 2
 
+# Dependabot: Disabled by default as it can be scary to see a bunch of Pull Requests open on a new template.
+#
+# Plus, I'm also worried about Dependabot as an vector for stealing test API data (e.g someone pushing a compromised
+# version of a library).
+
 updates:
 
   # Maintain dependencies for GitHub Actions
