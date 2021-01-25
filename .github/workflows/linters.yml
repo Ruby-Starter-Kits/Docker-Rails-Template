@@ -4,7 +4,7 @@ name: Linters
 on:
   push:
     branches-ignore:
-      - master
+      - main
 
 jobs:
   # https://github.com/github/super-linter

@@ -3,7 +3,7 @@ name: Standard
 on:
   push:
     branches-ignore:
-      - master
+      - main
 jobs:
   standard:
     runs-on: ubuntu-latest
