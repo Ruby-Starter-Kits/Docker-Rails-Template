@@ -7352,6 +7352,11 @@ watchpack@^1.7.4:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
 
+water.css@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/water.css/-/water.css-2.0.0.tgz#9d7baa1508a4e7b5ae276ea6b87f80a43b341ac2"
+  integrity sha512-GoogHcpwiQEHktKjwIEyWIoZrvbxUb8KJDOGGZL8dvO+I8F9HYYLbEia5QrllJVd4CFfy5WWaYeXh8RYjh8JdQ==
+
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
