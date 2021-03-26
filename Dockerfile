@@ -10,17 +10,18 @@ RUN apk --no-cache add --virtual build-dependencies \
       # PG
       postgresql-dev \
       # JavaScript
+      nodejs \
       yarn \
       # FFI Bindings in ruby (Run C Commands)
-      libffi-dev
+      libffi-dev \
+      # Fixes watch file issues with things like HMR
+      libnotify-dev
 
 RUN apk --no-cache add \
       # ActiveStorage file inspection
       file \
       # Time zone data
       tzdata \
-      # JavaScript
-      nodejs \
       # HTML to PDF conversion
       # ttf-ubuntu-font-family \
       # wkhtmltopdf \
@@ -32,8 +33,8 @@ RUN apk --no-cache add \
       git \
       # VIM is a handy editor for editing credentials
       vim \
-      # Fixes watch file issues with things like HMR
-      libnotify-dev
+      # Allows for mimemagic gem to be installed
+      shared-mime-info
 
 # Install any extra dependencies via Aptfile - These are installed on Heroku
 # COPY Aptfile /usr/src/app/Aptfile

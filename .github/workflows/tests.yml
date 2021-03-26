@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Pull docker images
         run: |
-          docker pull ruby:2.7.2-alpine
+          docker pull ruby:3.0.0-alpine
           docker-compose -f docker-compose.ci.yml pull
       - uses: satackey/action-docker-layer-caching@v0
         with:
