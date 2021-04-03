@@ -42,7 +42,7 @@ x-app: &app
 
 services:
   postgres:
-    image: postgres:12.3-alpine
+    image: postgres:13.2-alpine
     mem_limit: 64m
     volumes:
       - postgresql:/var/lib/postgresql/data:delegated
@@ -63,7 +63,7 @@ services:
       driver: none
 
   redis:
-    image: redis:4.0.14-alpine
+    image: redis:6.0.12-alpine
     mem_limit: 64m
     volumes:
       - redis:/data:delegated
