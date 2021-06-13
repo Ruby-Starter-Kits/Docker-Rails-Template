@@ -13,7 +13,6 @@ jobs:
       - name: Pull docker images
         run: |
           docker pull ruby:3.0.0-alpine
-          docker pull postgres:13.2-alpine
           docker-compose -f docker-compose.ci.yml pull
       - uses: satackey/action-docker-layer-caching@v0
         with:

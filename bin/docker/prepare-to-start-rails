@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+
+# path to your application root.
+APP_ROOT = File.expand_path("../../", __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+FileUtils.chdir APP_ROOT do
+  # This script is a way to setup or update your development environment automatically.
+  # This script is idempotent, so that you can run it at anytime and get an expectable outcome.
+  # Add necessary setup steps to this file.
+  puts "\n== Clearing up any previous Rails Instances =="
+  system "rm -rf tmp/pids/server.pid"
+
+  puts "== Checking dependencies =="
+  system! "gem install bundler --conservative"
+  system("bundle check") || system!("bundle install")
+
+  # Install JavaScript dependencies
+  system("bin/yarn")
+end

@@ -1,5 +1,5 @@
 ---
-# This is a set up for Rails 6, running a worker & webpack.
+# This is a set up for Ruby on Rails 6, running a worker & webpack.
 # Gems are cached within a volume, which speeds up development when adding new gems.
 #
 ## Usage:
@@ -7,14 +7,9 @@
 # docker-compose build
 # docker-compose run --rm web bin/setup
 # docker-compose up
-#
-# Docker Compose 2.4 is for local development
-# https://www.heroku.com/podcasts/codeish/57-discussing-docker-containers-and-kubernetes-with-a-docker-captain - Source on that.
-version: '2.4'
+version: "3"
 
 x-app: &app
-  image: rails-app:0.3.0
-  mem_limit: 512m
   build:
     context: .
     dockerfile: Dockerfile
@@ -25,6 +20,7 @@ x-app: &app
     REDIS_URL: redis://@redis:6379/1
     DATABASE_URL: postgres://postgres:postgres@postgres:5432/
     WEBPACKER_DEV_SERVER_HOST: webpacker
+  entrypoint: ./bin/docker/entrypoints/wait-for-web.sh
   volumes:
     - .:/usr/src/app:cached
     - bundler:/usr/local/bundle:delegated
@@ -35,18 +31,15 @@ x-app: &app
     - yarn_cache:/usr/src/yarn:delegated
     - letter_opener:/usr/src/app/tmp/letter_opener:delegated
   depends_on:
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_started
+    - postgres
+    - redis
 
 services:
   postgres:
     image: postgres:13.2-alpine
-    mem_limit: 64m
     volumes:
       - postgresql:/var/lib/postgresql/data:delegated
-    # Uncomment to access this containers postgres instance via port 5432
+    # Uncomment to access this containers Postgres instance via port 5432
     #ports:
       #- "127.0.0.1:5432:5432"
     environment:
@@ -54,20 +47,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     restart: on-failure
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 2s
-      retries: 10
     logging:
       driver: none
 
   redis:
     image: redis:6.0.12-alpine
-    mem_limit: 64m
     volumes:
       - redis:/data:delegated
-    # Uncomment to access this containers redis instance via port 6379
+    # Uncomment to access this containers Redis instance via port 6379
     #ports:
       #- "127.0.0.1:6379:6379"
     restart: on-failure
@@ -76,7 +63,8 @@ services:
 
   web:
     <<: *app
-    command: bash -c "rm -rf /usr/src/app/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    entrypoint: ./bin/docker/entrypoints/wait-for-postgres.sh
+    command: bash -c "./bin/docker/prepare-to-start-rails && ./bin/rails server -p 3000 -b '0.0.0.0'"
     ports:
       - "127.0.0.1:3000:3000"
 
@@ -86,7 +74,6 @@ services:
 
   webpacker:
     <<: *app
-    mem_limit: 256m
     command: ./bin/webpack-dev-server
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0

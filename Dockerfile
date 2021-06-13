@@ -3,11 +3,12 @@ LABEL maintainer="Mike Rogers <me@mikerogers.io>"
 
 RUN apk --no-cache add --virtual build-dependencies \
       build-base \
+      openssl \
       # Nokogiri Libraries
       zlib-dev \
       libxml2-dev \
       libxslt-dev \
-      # PG
+      # Postgres
       postgresql-dev \
       # JavaScript
       nodejs \
@@ -17,6 +18,13 @@ RUN apk --no-cache add --virtual build-dependencies \
       # Fixes watch file issues with things like HMR
       libnotify-dev
 
+# Dockerize allows us to wait for other containers to be ready before we run our own code.
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+# Rails Specific libraries
 RUN apk --no-cache add \
       # ActiveStorage file inspection
       file \
@@ -77,11 +85,17 @@ WORKDIR /usr/src/app
 
 ENV PATH /usr/src/app/bin:$PATH
 
+# Add a script to be executed every time the container starts.
+COPY bin/docker/entrypoints/* /usr/bin/
+RUN chmod +x /usr/bin/wait-for-postgres.sh
+RUN chmod +x /usr/bin/wait-for-web.sh
+ENTRYPOINT ["/usr/bin/wait-for-postgres.sh"]
+
 # Define the user running the container
 USER appuser
 
 EXPOSE 3000
-CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 
 FROM development AS production
 

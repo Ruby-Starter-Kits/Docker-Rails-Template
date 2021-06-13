@@ -27,7 +27,9 @@ Then navigate your browser to https://127.0.0.1:3000/ to see your site.
 To run a one off command, run it within the web service, e.g:
 
 ```bash
-$ docker-compose run --rm web rails db:migrate
+$ docker-compose run --rm web bin/rails db:migrate
+$ docker-compose run --rm web bin/bundle
+$ docker-compose run --rm web bin/yarn
 ```
 
 ### Restoring a database
