@@ -10,18 +10,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 3.0
+    - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0.0
-    - name: Cache gems
-      uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-standardrb
-    - name: Install gems
-      run: |
-        bundle config path vendor/bundle
-        gem install standardrb
+        bundler-cache: true
     - name: Run Standard
-      run: standardrb
+      run: bundle exec standardrb
