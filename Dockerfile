@@ -20,7 +20,7 @@ RUN apk --no-cache add --virtual build-dependencies \
 
 # Dockerize allows us to wait for other containers to be ready before we run our own code.
 ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+RUN wget -nv https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
@@ -116,12 +116,13 @@ COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app
 
 # Install Yarn Libraries
-RUN yarn install --check-files
+RUN yarn install --frozen-lockfile --check-files \
+      && yarn cache clean --all
 
 # Chown files so non are root.
 COPY --chown=appuser:appgroup . /usr/src/app
 
-# Precompile the assets & bootsnap
+# Precompile the assets, yarn relay & bootsnap
 RUN RAILS_SERVE_STATIC_FILES=enabled \
       SECRET_KEY_BASE=secret-key-base \
       bundle exec rake assets:precompile \
