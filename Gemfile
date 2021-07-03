@@ -32,6 +32,7 @@ group :development do
   gem "listen", "~> 3.3"
   gem "rack-mini-profiler", "~> 2.0"
   gem "standardrb", "~> 1.0", require: false
+  gem "web-console", ">= 4.1.0"
 end
 
 group :test do
