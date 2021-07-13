@@ -116,8 +116,7 @@ COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app
 
 # Install Yarn Libraries
-RUN yarn install --frozen-lockfile --check-files \
-      && yarn cache clean --all
+RUN yarn install --frozen-lockfile --check-files
 
 # Chown files so non are root.
 COPY --chown=appuser:appgroup . /usr/src/app
