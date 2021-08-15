@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+echo "== Turning on Docker =="
+docker-compose up

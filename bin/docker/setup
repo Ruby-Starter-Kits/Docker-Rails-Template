@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+# path to your application root.
+APP_ROOT = File.expand_path("../../", __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+FileUtils.chdir APP_ROOT do
+  # This turns sets up up the docker image
+  puts "\n== Copying sample files =="
+  FileUtils.cp ".env.template", ".env" unless File.exist?(".env")
+
+  puts "== Pulling Images =="
+  system! "docker-compose pull"
+
+  puts "== Building Container =="
+  system! "docker-compose build"
+
+  puts "== Installing Libraries =="
+  system! "docker-compose run --rm web ./bin/setup"
+
+  puts "== 🎉 Success, now you can run ./bin/docker/start"
+end

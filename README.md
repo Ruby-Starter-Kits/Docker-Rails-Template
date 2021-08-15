@@ -13,9 +13,8 @@ Welcome to your [Ruby On Rails](https://rubyonrails.org/) app.
 Clone down the repo, install [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/) & run:
 
 ```bash
-$ docker-compose build
-$ docker-compose run --rm web bin/setup
-$ docker-compose up
+$ ./bin/docker/setup
+$ ./bin/docker/start
 ```
 
 This will build the docker image, then setup the `bin/setup` file which will run `bundle`, `yarn` & create the database.
@@ -27,9 +26,9 @@ Then navigate your browser to https://127.0.0.1:3000/ to see your site.
 To run a one off command, run it within the web service, e.g:
 
 ```bash
-$ docker-compose run --rm web bin/rails db:migrate
-$ docker-compose run --rm web bin/bundle
-$ docker-compose run --rm web bin/yarn
+$ ./bin/docker/bundle exec rails db:migrate
+$ ./bin/docker/bundle
+$ ./bin/docker/yarn
 ```
 
 ### Restoring a database
