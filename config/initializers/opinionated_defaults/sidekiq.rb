@@ -33,6 +33,8 @@ if defined?(Sidekiq) && ENV["REDIS_URL"].present?
     network_timeout: 5
   }
   Rails.application.config.active_job.queue_adapter = :sidekiq
+  ActiveJob::Base.queue_adapter = :sidekiq
 else
   Rails.application.config.active_job.queue_adapter = :inline
+  ActiveJob::Base.queue_adapter = :inline
 end
