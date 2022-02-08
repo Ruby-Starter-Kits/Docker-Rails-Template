@@ -11,7 +11,7 @@ end
 FileUtils.chdir APP_ROOT do
   # This turns sets up up the docker image
   puts "\n== Copying sample files =="
-  FileUtils.cp ".env.template", ".env" unless File.exist?(".env")
+  FileUtils.cp ".env.example", ".env" unless File.exist?(".env")
 
   puts "== Pulling Images =="
   system! "docker-compose pull"
